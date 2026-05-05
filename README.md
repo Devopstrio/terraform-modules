@@ -82,7 +82,7 @@ graph LR
     
     GH -->|6. Provision| MultiCloud
     MultiCloud -->|7. Lock| State
-
+    
     %% Styling
     classDef reg fill:#f5f5f5,stroke:#616161,stroke-width:2px;
     classDef intel fill:#ede7f6,stroke:#311b92,stroke-width:2px;
@@ -119,6 +119,15 @@ graph LR
     Input --> Core
     Core --> Output
     Core -->|Tagging| Tag[Standardized Tags]
+```
+
+**Semantic Versioning Lifecycle:**
+```mermaid
+graph TD
+    Dev[Feature Branch] --> PR[Pull Request]
+    PR --> Merge[Merge to Main]
+    Merge --> Tag[SemVer Tag: v1.2.0]
+    Tag --> Publish[Registry Release]
 ```
 
 **CI/CD Validation Loop:**
@@ -185,6 +194,14 @@ graph TD
     T3 --> T4
 ```
 
+**Security Scan Pipeline:**
+```mermaid
+graph LR
+    Code[HCL Code] --> Checkov[Checkov Policy]
+    Checkov -->|SCA| TFSec[TFSec Analysis]
+    TFSec -->|Report| Result[Security Scorecard]
+```
+
 ### 5. Multi-Cloud Platform Federation (Module Consumption)
 Automatically managing unified infrastructure standards across diverse cloud tenants, ensuring institutional module sourcing and versioning boundaries by default.
 
@@ -203,8 +220,30 @@ graph LR
     Runner --> DB[DynamoDB (State Locking)]
 ```
 
+**State Locking Mechanism:**
+```mermaid
+graph TD
+    Apply[TF Apply] --> Check[Query DynamoDB]
+    Check -->|No Lock| Acquire[Create Lock ID]
+    Acquire --> Exec[Resource Provision]
+    Exec --> Release[Delete Lock ID]
+    Check -->|Lock Exists| Wait[Hold Process]
+```
+
 ### 7. Institutional Infrastructure Maturity Scorecard (Testing Pyramid)
 Grading organizational performance based on key indicators: Module Reliability (Integration Tests), Security Compliance (Checkov), and Standardized Interface Adoption.
+
+```mermaid
+graph TD
+    Manual[Manual Review]
+    Integration[Integration: Terratest]
+    Unit[Unit: TF Validate]
+    Static[Static: TFLint]
+    
+    Static --> Unit
+    Unit --> Integration
+    Integration --> Manual
+```
 
 ### 8. Identity & RBAC for IaC Governance
 Managing fine-grained access to cloud substrates through OIDC federation, provisioning workers, and audit logs between GitHub Actions and Cloud Providers.
@@ -216,8 +255,24 @@ graph LR
     Role --> Action[Provision Resources]
 ```
 
+**Provider Configuration Strategy:**
+```mermaid
+graph TD
+    Main[Main Stack] --> ProvAWS[AWS Provider: 5.0+]
+    Main --> ProvAZ[Azure Provider: 3.0+]
+    ProvAWS --> Auth[IAM Instance Profile]
+    ProvAZ --> AuthAZ[Service Principal]
+```
+
 ### 9. IaC Deployment: Terraform-Modules-as-Code Framework
 Using modular CI/CD pipelines to deploy and manage the versioned distribution of the atomic modules, remote state backends, and validation fleets.
+
+```mermaid
+graph LR
+    Code[Module Update] --> Test[Automated Tests]
+    Test --> Pack[Release Artifact]
+    Pack --> Reg[Private Registry]
+```
 
 ### 10. AIOps Infrastructure Drift & Risk Validation Flow
 Using advanced analytics to identify sudden surges in configuration drift, unauthorized resource changes, or unusual delivery pattern changes that could result in institutional risk or audit failure.
@@ -230,8 +285,34 @@ graph LR
     Diff -->|No| Success[In Sync]
 ```
 
+**Cost Estimation Workflow:**
+```mermaid
+graph TD
+    Plan[TF Plan JSON] --> Infracost[Infracost Engine]
+    Infracost --> Estimate[Monthly $ Change]
+    Estimate --> Budget{Over Budget?}
+    Budget -->|Yes| Warning[Block Merge]
+    Budget -->|No| Success[Approve Cost]
+```
+
 ### 11. Metadata Lake for Forensic Infrastructure Audit
 Storing long-term records of every module release (metadata), every terraform apply executed, and every version history for institutional record-keeping and forensic analysis.
+
+```mermaid
+graph LR
+    Apply[TF Apply Event] --> Log[JSON Audit Log]
+    Log --> Lake[S3 Audit Lake]
+    Lake --> Query[Athena Analysis]
+```
+
+**Resource Tagging Policy:**
+```mermaid
+graph TD
+    Res[Resource] --> TagOrg[Organization: Devopstrio]
+    Res --> TagEnv[Environment: Production]
+    Res --> TagOwner[Owner: Platform-Team]
+    Res --> TagCost[CostCenter: 9901]
+```
 
 ---
 
