@@ -33,41 +33,41 @@ This platform provides the **Infrastructure Intelligence Plane**. It implements 
 This diagram illustrates the high-level relationship between the Private Module Registry, the IaC Intelligence Layer, and the multi-cloud resource targets. It defines the bridge between application developers and the standardized cloud substrate.
 
 ```mermaid
-graph LR
+flowchart LR
     %% Subgraph Definitions
     subgraph Registry["Private Module Registry"]
         direction TB
-        VPC[Networking Modules]
-        Comp[Compute Modules]
-        Data[Storage Modules]
-        Sec[Security Modules]
+        VPC["Networking Modules"]
+        Comp["Compute Modules"]
+        Data["Storage Modules"]
+        Sec["Security Modules"]
     end
 
     subgraph Intelligence["IaC Intelligence & Testing"]
         direction TB
-        Lint[TFLint / Formatting]
-        Scan[Checkov / Security Scan]
-        Test[Terratest / Integration]
+        Lint["TFLint / Formatting"]
+        Scan["Checkov / Security Scan"]
+        Test["Terratest / Integration"]
     end
 
     subgraph Consumption["Application Consumption Zone"]
-        App1[Finance App Environment]
-        App2[Retail App Environment]
-        App3[Data Analytics Stack]
+        App1["Finance App Environment"]
+        App2["Retail App Environment"]
+        App3["Data Analytics Stack"]
     end
 
     subgraph MultiCloud["Multi-Cloud Resource Targets"]
         direction TB
-        AWS[AWS Resources]
-        Azure[Azure Resources]
-        GCP[GCP Resources]
+        AWS["AWS Resources"]
+        Azure["Azure Resources"]
+        GCP["GCP Resources"]
     end
 
     subgraph DevOps["CI/CD & Release Pipeline"]
         direction TB
-        GH[GitHub Actions]
-        State[Remote State Backend]
-        Version[SemVer Tagging]
+        GH["GitHub Actions"]
+        State["Remote State Backend"]
+        Version["SemVer Tagging"]
     end
 
     %% Flow Arrows
@@ -82,7 +82,7 @@ graph LR
     
     GH -->|6. Provision| MultiCloud
     MultiCloud -->|7. Lock| State
-    
+
     %% Styling
     classDef reg fill:#f5f5f5,stroke:#616161,stroke-width:2px;
     classDef intel fill:#ede7f6,stroke:#311b92,stroke-width:2px;
@@ -101,60 +101,60 @@ graph LR
 The continuous path of an infrastructure component from initial input definition (variables) and resource orchestration (main) to versioned release and automated validation. This ensures zero-interruption operations through dependency-aware module anatomy.
 
 ```mermaid
-graph LR
+flowchart LR
     subgraph Input["Module Inputs"]
-        Vars[Variables.tf]
-        Prov[Providers.tf]
+        Vars["Variables.tf"]
+        Prov["Providers.tf"]
     end
 
     subgraph Core["Resource Orchestration"]
-        Main[Main.tf]
-        Loc[Locals.tf]
+        Main["Main.tf"]
+        Loc["Locals.tf"]
     end
 
     subgraph Output["Module Outputs"]
-        Attr[Outputs.tf]
+        Attr["Outputs.tf"]
     end
 
     Input --> Core
     Core --> Output
-    Core -->|Tagging| Tag[Standardized Tags]
+    Core -->|Tagging| Tag["Standardized Tags"]
 ```
 
 **Semantic Versioning Lifecycle:**
 ```mermaid
-graph TD
-    Dev[Feature Branch] --> PR[Pull Request]
-    PR --> Merge[Merge to Main]
-    Merge --> Tag[SemVer Tag: v1.2.0]
-    Tag --> Publish[Registry Release]
+flowchart TD
+    Dev["Feature Branch"] --> PR["Pull Request"]
+    PR["Pull Request"] --> Merge["Merge to Main"]
+    Merge["Merge to Main"] --> Tag["SemVer Tag: v1.2.0"]
+    Tag["SemVer Tag: v1.2.0"] --> Publish["Registry Release"]
 ```
 
 **CI/CD Validation Loop:**
 ```mermaid
-graph LR
-    PR[Pull Request] --> Lint[Linting]
-    Lint --> Scan[Security Scan]
-    Scan --> Plan[Terraform Plan]
-    Plan --> Approval{Review}
-    Approval --> Merge[Merge & Tag Release]
+flowchart LR
+    PR["Pull Request"] --> Lint["Linting"]
+    Lint["Linting"] --> Scan["Security Scan"]
+    Scan["Security Scan"] --> Plan["Terraform Plan"]
+    Plan["Terraform Plan"] --> Approval{"Review"}
+    Approval{"Review"} --> Merge["Merge & Tag Release"]
 ```
 
 ### 3. Distributed Infrastructure Topology (Multi-Cloud & Composition)
 Strategically orchestrating standardized infrastructure across global regions and diverse resource architectures, providing a unified institutional view of multi-cloud consistency.
 
 ```mermaid
-graph TD
+flowchart TD
     subgraph Standard["Standard 'Virtual Network' Module"]
-        IF[Consistent Interface]
+        IF["Consistent Interface"]
     end
 
     subgraph AWS["AWS Implementation"]
-        VPC[aws_vpc]
+        VPC["aws_vpc"]
     end
 
     subgraph Azure["Azure Implementation"]
-        VNet[azurerm_virtual_network]
+        VNet["azurerm_virtual_network"]
     end
 
     Standard --> AWS
@@ -163,15 +163,15 @@ graph TD
 
 **Module Composition Flow:**
 ```mermaid
-graph LR
+flowchart LR
     subgraph Atomic["Atomic Modules"]
-        M1[VPC]
-        M2[Subnet]
-        M3[IAM]
+        M1["VPC"]
+        M2["Subnet"]
+        M3["IAM"]
     end
 
     subgraph Composite["App Environment"]
-        Env[Staging/Prod]
+        Env["Staging/Prod"]
     end
 
     M1 --> Env
@@ -183,62 +183,57 @@ graph LR
 Executing complex logic for securing the bridge between infrastructure drafts and multi-cloud targets, ensuring every module is linted, scanned for security, and validated against institutional policy.
 
 ```mermaid
-graph TD
-    T1[Static: TFLint / Validate]
-    T2[Policy: Checkov / TFSec]
-    T3[Unit: Terraform Plan Analysis]
-    T4[Integration: Terratest Apply/Destroy]
-
-    T1 --> T2
-    T2 --> T3
-    T3 --> T4
+flowchart TD
+    T1["Static: TFLint / Validate"] --> T2["Policy: Checkov / TFSec"]
+    T2["Policy: Checkov / TFSec"] --> T3["Unit: Terraform Plan Analysis"]
+    T3["Unit: Terraform Plan Analysis"] --> T4["Integration: Terratest Apply/Destroy"]
 ```
 
 **Security Scan Pipeline:**
 ```mermaid
-graph LR
-    Code[HCL Code] --> Checkov[Checkov Policy]
-    Checkov -->|SCA| TFSec[TFSec Analysis]
-    TFSec -->|Report| Result[Security Scorecard]
+flowchart LR
+    Code["HCL Code"] --> Checkov["Checkov Policy"]
+    Checkov["Checkov Policy"] -->|SCA| TFSec["TFSec Analysis"]
+    TFSec["TFSec Analysis"] -->|Report| Result["Security Scorecard"]
 ```
 
 ### 5. Multi-Cloud Platform Federation (Module Consumption)
 Automatically managing unified infrastructure standards across diverse cloud tenants, ensuring institutional module sourcing and versioning boundaries by default.
 
 ```mermaid
-graph TD
-    App[App Code] -->|Remote| Registry["github.com/devopstrio/terraform-modules//vpc"]
-    App -->|Local| Filesystem["./modules/vpc"]
+flowchart TD
+    App["App Code"] -->|Remote| Registry["github.com/devopstrio/terraform-modules//vpc"]
+    App["App Code"] -->|Local| Filesystem["./modules/vpc"]
 ```
 
 ### 6. Encryption & Perimeter Protection Flow (State Management)
 Managing the lifecycle of a terraform state, automatically enforcing institutional S3 encryption and DynamoDB locking standards as required by security policy, ensuring zero-latency state confidence.
 
 ```mermaid
-graph LR
-    Runner[GitHub Actions] --> S3[State Bucket (Encryption)]
-    Runner --> DB[DynamoDB (State Locking)]
+flowchart LR
+    Runner["GitHub Actions"] --> S3["State Bucket (Encryption)"]
+    Runner["GitHub Actions"] --> DB["DynamoDB (State Locking)"]
 ```
 
 **State Locking Mechanism:**
 ```mermaid
-graph TD
-    Apply[TF Apply] --> Check[Query DynamoDB]
-    Check -->|No Lock| Acquire[Create Lock ID]
-    Acquire --> Exec[Resource Provision]
-    Exec --> Release[Delete Lock ID]
-    Check -->|Lock Exists| Wait[Hold Process]
+flowchart TD
+    Apply["TF Apply"] --> Check["Query DynamoDB"]
+    Check["Query DynamoDB"] -->|No Lock| Acquire["Create Lock ID"]
+    Acquire["Create Lock ID"] --> Exec["Resource Provision"]
+    Exec["Resource Provision"] --> Release["Delete Lock ID"]
+    Check -->|Lock Exists| Wait["Hold Process"]
 ```
 
 ### 7. Institutional Infrastructure Maturity Scorecard (Testing Pyramid)
 Grading organizational performance based on key indicators: Module Reliability (Integration Tests), Security Compliance (Checkov), and Standardized Interface Adoption.
 
 ```mermaid
-graph TD
-    Manual[Manual Review]
-    Integration[Integration: Terratest]
-    Unit[Unit: TF Validate]
-    Static[Static: TFLint]
+flowchart TD
+    Manual["Manual Review"]
+    Integration["Integration: Terratest"]
+    Unit["Unit: TF Validate"]
+    Static["Static: TFLint"]
     
     Static --> Unit
     Unit --> Integration
@@ -249,69 +244,69 @@ graph TD
 Managing fine-grained access to cloud substrates through OIDC federation, provisioning workers, and audit logs between GitHub Actions and Cloud Providers.
 
 ```mermaid
-graph LR
-    GH[GitHub] --> OIDC[OIDC Federation]
-    OIDC --> Role[Cloud IAM Role]
-    Role --> Action[Provision Resources]
+flowchart LR
+    GH["GitHub"] --> OIDC["OIDC Federation"]
+    OIDC["OIDC Federation"] --> Role["Cloud IAM Role"]
+    Role["Cloud IAM Role"] --> Action["Provision Resources"]
 ```
 
 **Provider Configuration Strategy:**
 ```mermaid
-graph TD
-    Main[Main Stack] --> ProvAWS[AWS Provider: 5.0+]
-    Main --> ProvAZ[Azure Provider: 3.0+]
-    ProvAWS --> Auth[IAM Instance Profile]
-    ProvAZ --> AuthAZ[Service Principal]
+flowchart TD
+    Main["Main Stack"] --> ProvAWS["AWS Provider: 5.0+"]
+    Main["Main Stack"] --> ProvAZ["Azure Provider: 3.0+"]
+    ProvAWS["AWS Provider: 5.0+"] --> Auth["IAM Instance Profile"]
+    ProvAZ["Azure Provider: 3.0+"] --> AuthAZ["Service Principal"]
 ```
 
 ### 9. IaC Deployment: Terraform-Modules-as-Code Framework
 Using modular CI/CD pipelines to deploy and manage the versioned distribution of the atomic modules, remote state backends, and validation fleets.
 
 ```mermaid
-graph LR
-    Code[Module Update] --> Test[Automated Tests]
-    Test --> Pack[Release Artifact]
-    Pack --> Reg[Private Registry]
+flowchart LR
+    Code["Module Update"] --> Test["Automated Tests"]
+    Test["Automated Tests"] --> Pack["Release Artifact"]
+    Pack["Release Artifact"] --> Reg["Private Registry"]
 ```
 
 ### 10. AIOps Infrastructure Drift & Risk Validation Flow
 Using advanced analytics to identify sudden surges in configuration drift, unauthorized resource changes, or unusual delivery pattern changes that could result in institutional risk or audit failure.
 
 ```mermaid
-graph LR
-    Timer[Schedule] --> Plan[Terraform Plan]
-    Plan --> Diff{Drift Detected?}
-    Diff -->|Yes| Alert[Slack Alert / Auto-Apply]
-    Diff -->|No| Success[In Sync]
+flowchart LR
+    Timer["Schedule"] --> Plan["Terraform Plan"]
+    Plan["Terraform Plan"] --> Diff{"Drift Detected?"}
+    Diff{"Drift Detected?"} -->|Yes| Alert["Slack Alert / Auto-Apply"]
+    Diff{"Drift Detected?"} -->|No| Success["In Sync"]
 ```
 
 **Cost Estimation Workflow:**
 ```mermaid
-graph TD
-    Plan[TF Plan JSON] --> Infracost[Infracost Engine]
-    Infracost --> Estimate[Monthly $ Change]
-    Estimate --> Budget{Over Budget?}
-    Budget -->|Yes| Warning[Block Merge]
-    Budget -->|No| Success[Approve Cost]
+flowchart TD
+    Plan["TF Plan JSON"] --> Infracost["Infracost Engine"]
+    Infracost["Infracost Engine"] --> Estimate["Monthly $ Change"]
+    Estimate["Monthly $ Change"] --> Budget{"Over Budget?"}
+    Budget{"Over Budget?"} -->|Yes| Warning["Block Merge"]
+    Budget{"Over Budget?"} -->|No| Success["Approve Cost"]
 ```
 
 ### 11. Metadata Lake for Forensic Infrastructure Audit
 Storing long-term records of every module release (metadata), every terraform apply executed, and every version history for institutional record-keeping and forensic analysis.
 
 ```mermaid
-graph LR
-    Apply[TF Apply Event] --> Log[JSON Audit Log]
-    Log --> Lake[S3 Audit Lake]
-    Lake --> Query[Athena Analysis]
+flowchart LR
+    Apply["TF Apply Event"] --> Log["JSON Audit Log"]
+    Log["JSON Audit Log"] --> Lake["S3 Audit Lake"]
+    Lake["S3 Audit Lake"] --> Query["Athena Analysis"]
 ```
 
 **Resource Tagging Policy:**
 ```mermaid
-graph TD
-    Res[Resource] --> TagOrg[Organization: Devopstrio]
-    Res --> TagEnv[Environment: Production]
-    Res --> TagOwner[Owner: Platform-Team]
-    Res --> TagCost[CostCenter: 9901]
+flowchart TD
+    Res["Resource"] --> TagOrg["Organization: Devopstrio"]
+    Res["Resource"] --> TagEnv["Environment: Production"]
+    Res["Resource"] --> TagOwner["Owner: Platform-Team"]
+    Res["Resource"] --> TagCost["CostCenter: 9901"]
 ```
 
 ---
